@@ -1,0 +1,7 @@
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\bin\Debug\WordWrap.exe.config
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\bin\Debug\WordWrap.exe
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\bin\Debug\WordWrap.pdb
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\obj\Debug\WordWrap.csprojAssemblyReference.cache
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\obj\Debug\WordWrap.csproj.CoreCompileInputs.cache
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\obj\Debug\WordWrap.exe
+F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap\obj\Debug\WordWrap.pdb
