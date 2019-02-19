@@ -1,0 +1,7 @@
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\bin\Debug\WordWrap.exe.config
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\bin\Debug\WordWrap.exe
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\bin\Debug\WordWrap.pdb
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\obj\Debug\WordWrap.csprojAssemblyReference.cache
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\obj\Debug\WordWrap.csproj.CoreCompileInputs.cache
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\obj\Debug\WordWrap.exe
+F:\GitHub\DailyKata\conner\DailyKata\day8\WordWrap\obj\Debug\WordWrap.pdb
