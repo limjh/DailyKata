@@ -1,0 +1,17 @@
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\ko\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\ko\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\ko\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\WordWrap.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\WordWrap.pdb
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\obj\Debug\WordWrap.csprojAssemblyReference.cache
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\obj\Debug\WordWrap.csproj.CoreCompileInputs.cache
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\obj\Debug\WordWrap.csproj.CopyComplete
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\obj\Debug\WordWrap.dll
+F:\GitHub\DailyKata\conner\DailyKata\day9\WordWrap\obj\Debug\WordWrap.pdb
