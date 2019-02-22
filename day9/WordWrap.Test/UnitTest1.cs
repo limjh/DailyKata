@@ -108,5 +108,148 @@ namespace WordWrap.Test
 
             Assert.AreEqual(expectedResult, resultString);
         }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_7번_결과를_리턴받을수_있다()
+        {
+            String argString = "a lot of words for a single";
+            int argInt = 10;
+            String expectedResult = "a lot of--words for--a single";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_8번_결과를_리턴받을수_있다()
+        {
+            String argString = "a lot of words";
+            int argInt = 10;
+            String expectedResult = "a lot of--words";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_9번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word word";
+            int argInt = 5;
+            String expectedResult = "word--word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_10번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word word";
+            int argInt = 10;
+            String expectedResult = "word word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_11번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word word";
+            int argInt = 12;
+            String expectedResult = "word word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_12번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word";
+            int argInt = 4;
+            String expectedResult = "word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_13번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word";
+            int argInt = 5;
+            String expectedResult = "word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_14번_결과를_리턴받을수_있다()
+        {
+            String argString = "word word";
+            int argInt = 7;
+            String expectedResult = "word--word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_15번_결과를_리턴받을수_있다()
+        {
+            String argString = "word";
+            int argInt = 3;
+            String expectedResult = "wor--d";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_16번_결과를_리턴받을수_있다()
+        {
+            String argString = "word";
+            int argInt = 4;
+            String expectedResult = "word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
+
+        [TestMethod]
+        public void 다음_문자열을_인자로하여_17번_결과를_리턴받을수_있다()
+        {
+            String argString = "word";
+            int argInt = 5;
+            String expectedResult = "word";
+
+            var wrapper = new WordWrapper();
+            String resultString = wrapper.Wrapping(argString, argInt);
+
+            Assert.AreEqual(expectedResult, resultString);
+        }
     }
 }
