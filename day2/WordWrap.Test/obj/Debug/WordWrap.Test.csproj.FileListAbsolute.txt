@@ -1,2 +1,0 @@
-F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap.Test\obj\Debug\WordWrap.Test.csprojAssemblyReference.cache
-F:\dailyKata\daily-kata-master\WordWrap\day_2\conner\WordWrap.Test\obj\Debug\WordWrap.Test.csproj.CoreCompileInputs.cache

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingKata", "BowlingKata\BowlingKata.csproj", "{2B1211EF-E292-48D0-864F-223E085E3A6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingKata.Test", "BowlingKata.Test\BowlingKata.Test.csproj", "{97441FAE-2000-418F-9F13-86C3F508EF41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B1211EF-E292-48D0-864F-223E085E3A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1211EF-E292-48D0-864F-223E085E3A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1211EF-E292-48D0-864F-223E085E3A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1211EF-E292-48D0-864F-223E085E3A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97441FAE-2000-418F-9F13-86C3F508EF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97441FAE-2000-418F-9F13-86C3F508EF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97441FAE-2000-418F-9F13-86C3F508EF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97441FAE-2000-418F-9F13-86C3F508EF41}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC8950F8-D6A2-4EFD-B7BB-34FACADC6CF8}
+	EndGlobalSection
+EndGlobal
