@@ -43,7 +43,7 @@ namespace SudokuTest
         }
 
         [TestMethod]
-        public void convert_row_to_colum()
+        public void get_selected_row()
         {
             int[,] array2D = new int[,]
                 {{0, 1, 0,  9, 0, 0,  0, 8, 7},
@@ -58,13 +58,120 @@ namespace SudokuTest
                 {7, 0, 0,  0, 0, 1,  0, 0, 0},
                 {5, 8, 0,  0, 0, 6,  0, 9, 0}};
 
-            int[,] resultArray2D = sudoku.convertRowToCol(array2D);
+            int rowIndex = 7;
 
-            Assert.AreEqual(resultArray2D[0, 0], 0);
-            Assert.AreEqual(resultArray2D[0, 8], 5);
-            Assert.AreEqual(resultArray2D[8, 0], 7);
-            Assert.AreEqual(resultArray2D[8, 1], 6);
-            Assert.AreEqual(resultArray2D[3, 5], 3);
+            int[] rowArray = sudoku.getSelectedRow(rowIndex, array2D);
+
+            Assert.AreEqual(rowArray[0], array2D[rowIndex, 0]);
+            Assert.AreEqual(rowArray[1], array2D[rowIndex, 1]);
+            Assert.AreEqual(rowArray[2], array2D[rowIndex, 2]);
+            Assert.AreEqual(rowArray[8], array2D[rowIndex, 8]);
+        }
+
+        [TestMethod]
+        public void get_selected_col()
+        {
+            int[,] array2D = new int[,]
+                {{0, 1, 0,  9, 0, 0,  0, 8, 7},
+                {0, 0, 0,  2, 0, 0,  0, 0, 6},
+                {0, 0, 0,  0, 0, 3,  2, 1, 0},
+
+                {0, 0, 1,  0, 4, 5,  0, 0, 0},
+                {0, 0, 2,  1, 0, 8,  9, 0, 0},
+                {0, 0, 0,  3, 2, 0,  6, 0, 0},
+
+                {0, 9, 3,  8, 0, 0,  0, 0, 0},
+                {7, 0, 0,  0, 0, 1,  0, 0, 0},
+                {5, 8, 0,  0, 0, 6,  0, 9, 0}};
+
+            int columnIndex = 7;
+
+            int[] colArray = sudoku.getSelectedColumn(columnIndex, array2D);
+
+            Assert.AreEqual(colArray[0], array2D[0, columnIndex]);
+            Assert.AreEqual(colArray[1], array2D[1, columnIndex]);
+            Assert.AreEqual(colArray[2], array2D[2, columnIndex]);
+            Assert.AreEqual(colArray[8], array2D[8, columnIndex]);
+        }
+
+        [TestMethod]
+        public void get_Selected_3x3_Array()
+        {
+            int[,] array2D = new int[,]
+                {{0, 1, 0,  9, 0, 0,  0, 8, 7},
+                {0, 0, 0,  2, 0, 0,  0, 0, 6},
+                {0, 0, 0,  0, 0, 3,  2, 1, 0},
+
+                {0, 0, 1,  0, 4, 5,  0, 0, 0},
+                {0, 0, 2,  1, 0, 8,  9, 0, 0},
+                {0, 0, 0,  3, 2, 0,  6, 0, 0},
+
+                {0, 9, 3,  8, 0, 0,  0, 0, 0},
+                {7, 0, 0,  0, 0, 1,  0, 0, 0},
+                {5, 8, 0,  0, 0, 6,  0, 9, 0}};
+
+            int rowIndex = 2;
+            int colIndex = 0;
+            int[] resultArray = sudoku.getSelected3x3Array(rowIndex, colIndex, array2D);
+
+            Assert.AreEqual(resultArray[0], array2D[6, 0]);
+            Assert.AreEqual(resultArray[1], array2D[6, 1]);
+            Assert.AreEqual(resultArray[2], array2D[6, 2]);
+
+            Assert.AreEqual(resultArray[3], array2D[7, 0]);
+            Assert.AreEqual(resultArray[4], array2D[7, 1]);
+            Assert.AreEqual(resultArray[5], array2D[7, 2]);
+
+            Assert.AreEqual(resultArray[6], array2D[8, 0]);
+            Assert.AreEqual(resultArray[7], array2D[8, 1]);
+            Assert.AreEqual(resultArray[8], array2D[8, 2]);
+        }
+
+        [TestMethod]
+        public void validate_check()
+        {
+            int[,] invalidArray2D = new int[,]
+                {{0, 1, 0,  9, 0, 0,  0, 8, 7},
+                {0, 0, 0,  2, 0, 0,  0, 0, 6},
+                {0, 0, 0,  0, 0, 3,  2, 1, 0},
+
+                {0, 0, 1,  0, 4, 5,  0, 0, 0},
+                {0, 0, 2,  1, 0, 8,  9, 0, 0},
+                {0, 0, 0,  3, 2, 0,  6, 0, 0},
+
+                {0, 9, 3,  8, 0, 0,  0, 0, 0},
+                {7, 0, 0,  0, 0, 1,  0, 0, 0},
+                {5, 8, 0,  0, 0, 6,  0, 9, 0}};
+
+            int[,] validArray2D = new int[,]
+                {{2, 1, 5,  9, 6, 4,  3, 8, 7},
+                {8, 3, 9,  2, 1, 7,  4, 5, 6},
+                {6, 4, 7,  5, 8, 3,  2, 1, 9},
+
+                {9, 7, 1,  6, 4, 5,  8, 2, 3},
+                {3, 6, 2,  1, 7, 8,  9, 4, 5},
+                {4, 5, 8,  3, 2, 9,  6, 7, 1},
+
+                {1, 9, 3,  8, 5, 2,  7, 6, 4},
+                {7, 2, 6,  4, 9, 1,  5, 3, 8},
+                {5, 8, 4,  7, 3, 6,  1, 9, 2}};
+
+            int[,] validArray2D2 = new int[,]
+                {{5, 8, 3,  2, 1, 9,  6, 4, 7},
+                {4, 7, 2,  3, 5, 6,  9, 8, 1},
+                {1, 9, 6,  7, 8, 4,  3, 2, 5},
+
+                {8, 3, 4,  6, 7, 2,  1, 5, 9},
+                {6, 1, 5,  8, 9, 3,  4, 7, 2},
+                {7, 2, 9,  1, 4, 5,  8, 3, 6},
+
+                {2, 6, 8,  9, 3, 7,  5, 1, 4},
+                {3, 5, 7,  4, 6, 1,  2, 9, 8},
+                {9, 4, 1,  5, 2, 8,  7, 6, 3}};
+
+            Assert.AreEqual(false, sudoku.validate(invalidArray2D));
+            Assert.AreEqual(true, sudoku.validate(validArray2D));
+            Assert.AreEqual(true, sudoku.validate(validArray2D2));
         }
     }
 }

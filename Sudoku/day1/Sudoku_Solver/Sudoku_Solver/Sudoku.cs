@@ -16,7 +16,30 @@ namespace Sudoku_Solver
 
         public bool validate(int[,] answer)
         {
-            return false;
+            int i = 0, j = 0;
+
+            //check all row and colum
+            for(i = 0; i < 9; i++)
+            {
+                if (!checkOneRow(getSelectedRow(i, answer)) ||
+                    !checkOneRow(getSelectedColumn(i, answer)))
+                {
+                    return false;
+                }
+            }
+
+            for(i = 0; i < 3; i++)
+            {
+                for(j = 0; j < 3; j++)
+                {
+                    if (!checkOneRow(getSelected3x3Array(i, j, answer)))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public bool checkOneRow(int[] oneRaw)
@@ -52,20 +75,42 @@ namespace Sudoku_Solver
             return arrayList;
         }
 
-        public int[,] convertRowToCol(int[,] array2D)
+        public int[] getSelectedRow(int rowIndex, int[,] array2D)
         {
+            int[] resultArray = new int[9];
 
-            int[,] result = new int[9, 9];
-
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                for (int j = 0; j < 9; j++)
-                {
-                    result[i, j] = array2D[j, i];
-                }
+                resultArray[i] = array2D[rowIndex, i];
             }
 
-            return result;
+            return resultArray;
+        }
+
+        public int[] getSelectedColumn(int columnIndex, int[,] array2D)
+        {
+            int[] resultArray = new int[9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                resultArray[i] = array2D[i, columnIndex];
+            }
+
+            return resultArray;
+        }
+
+        public int[] getSelected3x3Array(int rowIndex, int colIndex, int[,] array2D)
+        {
+            int[] resultArray = new int[9];
+
+            for (int i = 0; i < 3; i++)
+            {
+                resultArray[i*3] = array2D[rowIndex*3 + i, colIndex*3];
+                resultArray[i*3 + 1] = array2D[rowIndex*3 + i, colIndex*3 + 1];
+                resultArray[i*3 + 2] = array2D[rowIndex*3 + i, colIndex*3 + 2];
+            }
+
+            return resultArray;
         }
     }
 }
