@@ -11,10 +11,79 @@ namespace Sudoku_Solver
 
         public int[,] solve(int[,] question)
         {
-            return question;
+            int[,] result;
+
+            while(true)
+            {
+                result = solvePossibleNum(question);
+
+                if (!validate(result))
+                    break;
+
+                if (!isPossibleToSolve(result))
+                    break;
+            }
+           
+            
+            return result;
         }
 
-        public bool validate(int[,] answer)
+        public int[,] solvePossibleNum(int[,] question)
+        {
+            int[,] result = (int[,])question.Clone();
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (result[i, j] != 0)
+                        continue;
+
+                    ArrayList list = makeArrayList();
+
+                    list = removeExitNum(list, getSelectedRow(i, question));
+                    list = removeExitNum(list, getSelectedColumn(j, question));
+                    list = removeExitNum(list, getSelected3x3Array(i / 3, j / 3, question));
+
+                    if (list.Count == 1)
+                    {
+                        result[i, j] = (int)list[0];
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public bool isPossibleToSolve(int[,] question)
+        {
+            bool isListEmpty = false;
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (question[i, j] != 0)
+                        continue;
+
+                    ArrayList list = makeArrayList();
+
+                    list = removeExitNum(list, getSelectedRow(i, question));
+                    list = removeExitNum(list, getSelectedColumn(j, question));
+                    list = removeExitNum(list, getSelected3x3Array(i / 3, j / 3, question));
+
+                    if (list.Count == 1)
+                        return true;
+
+                    if (list.Count > 1)
+                        isListEmpty = true;
+
+                }
+            }
+
+            return false;
+        }
+
+        public bool finalValidate(int[,] answer)
         {
             int i = 0, j = 0;
 
@@ -42,25 +111,35 @@ namespace Sudoku_Solver
             return true;
         }
 
-        public bool checkOneRow(int[] oneRaw)
+        public bool validate(int[,] answer)
         {
-            ArrayList arrayList = makeArrayList();
+            int i = 0, j = 0;
 
-            for (int i = 0; i < oneRaw.Length; i++)
+            //check all row and colum
+            for (i = 0; i < 9; i++)
             {
-                if (oneRaw[i] == 0)
+                if (!checkOneRowWithoutZero(getSelectedRow(i, answer)) ||
+                    !checkOneRowWithoutZero(getSelectedColumn(i, answer)))
+                {
                     return false;
-
-                arrayList.Remove(oneRaw[i]);
+                }
             }
 
-            if (arrayList.Count == 0)
-                return true;
+            for (i = 0; i < 3; i++)
+            {
+                for (j = 0; j < 3; j++)
+                {
+                    if (!checkOneRowWithoutZero(getSelected3x3Array(i, j, answer)))
+                    {
+                        return false;
+                    }
+                }
+            }
 
-            return false;
+            return true;
         }
 
-        private ArrayList makeArrayList()
+        public ArrayList makeArrayList()
         {
             ArrayList arrayList = new ArrayList();
             arrayList.Add(1);
@@ -111,6 +190,65 @@ namespace Sudoku_Solver
             }
 
             return resultArray;
+        }
+
+        public bool checkOneRow(int[] oneRaw)
+        {
+            ArrayList arrayList = makeArrayList();
+
+            for (int i = 0; i < oneRaw.Length; i++)
+            {
+                if (oneRaw[i] == 0)
+                    return false;
+
+                arrayList.Remove(oneRaw[i]);
+            }
+
+            if (arrayList.Count == 0)
+                return true;
+
+            return false;
+        }
+
+        public bool checkOneRowWithoutZero(int[] oneRaw)
+        {
+            ArrayList arrayList = makeArrayList();
+
+            for (int i = 0; i < oneRaw.Length; i++)
+            {
+                if (oneRaw[i] == 0)
+                    continue;
+
+                if (!arrayList.Contains(oneRaw[i]))
+                    return false;
+
+                arrayList.Remove(oneRaw[i]);
+            }
+            return true;
+        }
+
+        public ArrayList getNeedNumList(int[] selectedRow)
+        {
+            ArrayList list = makeArrayList();
+
+            for (int i = 0; i < selectedRow.Length; i++)
+            {
+                list.Remove(selectedRow[i]);
+            }
+
+            return list;
+        }
+
+        public ArrayList removeExitNum(ArrayList list, int[] v)
+        {
+            ArrayList result = (ArrayList)list.Clone();
+
+            for(int i = 0; i < v.Length; i++)
+            {
+                result.Remove(v[i]);
+            }
+
+            return result;
         }
     }
 }

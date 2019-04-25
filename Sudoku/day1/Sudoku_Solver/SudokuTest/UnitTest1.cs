@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sudoku_Solver;
 
@@ -21,7 +22,7 @@ namespace SudokuTest
             int[,] question = new int[9, 9];
             int[,] answer = sudoku.solve(question);
 
-            Assert.IsFalse(sudoku.validate(answer));
+            Assert.IsFalse(sudoku.finalValidate(answer));
         }
 
         [TestMethod]
@@ -169,9 +170,157 @@ namespace SudokuTest
                 {3, 5, 7,  4, 6, 1,  2, 9, 8},
                 {9, 4, 1,  5, 2, 8,  7, 6, 3}};
 
-            Assert.AreEqual(false, sudoku.validate(invalidArray2D));
-            Assert.AreEqual(true, sudoku.validate(validArray2D));
-            Assert.AreEqual(true, sudoku.validate(validArray2D2));
+            Assert.AreEqual(false, sudoku.finalValidate(invalidArray2D));
+            Assert.AreEqual(true, sudoku.finalValidate(validArray2D));
+            Assert.AreEqual(true, sudoku.finalValidate(validArray2D2));
+        }
+
+        [TestMethod]
+        public void check_validate()
+        {
+            int[,] question = new int[,]
+                {{0, 4, 0,  3, 5, 2,  7, 8, 6},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {0, 2, 0,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  0, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  0, 4, 0},
+                {1, 3, 6,  4, 7, 8,  9, 0, 5},
+                {4, 8, 9,  2, 3, 5,  0, 7, 0}};
+
+
+            Assert.AreEqual(true, sudoku.validate(question));
+        }
+
+        [TestMethod]
+        public void getNeedNumList()
+        {
+            int[,] question = new int[,]
+                {{0, 4, 0,  3, 5, 2,  7, 8, 9},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {0, 2, 0,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  0, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  0, 4, 0},
+                {1, 3, 6,  4, 7, 8,  9, 2, 5},
+                {4, 8, 9,  2, 3, 5,  6, 7, 1}};
+
+            ArrayList result = sudoku.getNeedNumList(sudoku.getSelectedRow(0, question));
+
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(1, (int)result[0]);
+            Assert.AreEqual(6, (int)result[1]);
+        }
+
+        [TestMethod]
+        public void removeExitNum()
+        {
+            int[,] question = new int[,]
+                {{0, 4, 0,  3, 5, 2,  7, 8, 9},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {0, 2, 0,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  0, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  0, 4, 0},
+                {1, 3, 6,  4, 7, 8,  9, 2, 5},
+                {4, 8, 9,  2, 3, 5,  6, 7, 1}};
+
+            ArrayList list = sudoku.makeArrayList();
+            ArrayList result = sudoku.removeExitNum(list, sudoku.getSelectedRow(0, question));
+
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(1, (int)result[0]);
+            Assert.AreEqual(6, (int)result[1]);
+        }
+
+        [TestMethod]
+        public void solve_possible_position()
+        {
+            int[,] question = new int[,]
+                {{0, 4, 0,  3, 5, 2,  7, 8, 6},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {0, 2, 0,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  0, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  0, 4, 0},
+                {1, 3, 6,  4, 7, 8,  9, 2, 5},
+                {4, 8, 9,  2, 3, 5,  6, 7, 1}};
+
+            int[,] answer = new int[,]
+                {{9, 4, 1,  3, 5, 2,  7, 8, 6},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {5, 2, 8,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  9, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  8, 4, 3},
+                {1, 3, 6,  4, 7, 8,  9, 2, 5},
+                {4, 8, 9,  2, 3, 5,  6, 7, 1}};
+
+            int[,] result = sudoku.solve(question);
+
+            Assert.AreEqual(answer[0, 0], result[0, 0]);
+            Assert.AreEqual(answer[0, 1], result[0, 1]);
+            Assert.AreEqual(answer[2, 0], result[2, 0]);
+            Assert.AreEqual(answer[2, 1], result[2, 1]);
+            Assert.AreEqual(answer[3, 3], result[3, 3]);
+            Assert.AreEqual(answer[6, 6], result[6, 6]);
+            Assert.AreEqual(answer[6, 8], result[6, 8]);
+        }
+
+        [TestMethod]
+        public void solve_level01()
+        {
+            int[,] question = new int[,]
+                {{9, 4, 1,  0, 0, 2,  0, 0, 0},
+                {0, 0, 0,  0, 0, 0,  0, 5, 0},
+                {0, 0, 0,  7, 0, 0,  1, 3, 0},
+
+                {8, 0, 0,  0, 0, 3,  0, 6, 0},
+                {3, 6, 2,  1, 0, 7,  5, 9, 4},
+                {0, 9, 0,  5, 0, 0,  0, 0, 8},
+
+                {0, 5, 7,  0, 0, 1,  0, 0, 0},
+                {0, 3, 0,  0, 0, 0,  0, 0, 0},
+                {0, 0, 0,  2, 0, 0,  6, 7, 1}};
+
+
+            int[,] answer = new int[,]
+                {{9, 4, 1,  3, 5, 2,  7, 8, 6},
+                {6, 7, 3,  8, 1, 9,  4, 5, 2},
+                {5, 2, 8,  7, 6, 4,  1, 3, 9},
+
+                {8, 1, 5,  9, 4, 3,  2, 6, 7},
+                {3, 6, 2,  1, 8, 7,  5, 9, 4},
+                {7, 9, 4,  5, 2, 6,  3, 1, 8},
+
+                {2, 5, 7,  6, 9, 1,  8, 4, 3},
+                {1, 3, 6,  4, 7, 8,  9, 2, 5},
+                {4, 8, 9,  2, 3, 5,  6, 7, 1}};
+
+            int[,] result = sudoku.solve(question);
+
+            Assert.AreEqual(answer[0, 0], result[0, 0]);
+            Assert.AreEqual(answer[0, 1], result[0, 1]);
+            Assert.AreEqual(answer[2, 0], result[2, 0]);
+            Assert.AreEqual(answer[2, 1], result[2, 1]);
+            Assert.AreEqual(answer[3, 3], result[3, 3]);
+            Assert.AreEqual(answer[6, 6], result[6, 6]);
+            Assert.AreEqual(answer[6, 8], result[6, 8]);
         }
     }
 }
