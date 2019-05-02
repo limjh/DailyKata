@@ -11,11 +11,11 @@ namespace Sudoku_Solver
 
         public int[,] solve(int[,] question)
         {
-            int[,] result;
+            int[,] result = (int[,])question.Clone();
 
-            while(true)
+            while (true)
             {
-                result = solvePossibleNum(question);
+                result = solvePossibleNum(result);
 
                 if (!validate(result))
                     break;
@@ -23,7 +23,6 @@ namespace Sudoku_Solver
                 if (!isPossibleToSolve(result))
                     break;
             }
-           
             
             return result;
         }
@@ -56,8 +55,6 @@ namespace Sudoku_Solver
 
         public bool isPossibleToSolve(int[,] question)
         {
-            bool isListEmpty = false;
-
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -73,10 +70,6 @@ namespace Sudoku_Solver
 
                     if (list.Count == 1)
                         return true;
-
-                    if (list.Count > 1)
-                        isListEmpty = true;
-
                 }
             }
 
