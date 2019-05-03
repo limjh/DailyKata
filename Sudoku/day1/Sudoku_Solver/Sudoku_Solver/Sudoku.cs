@@ -21,9 +21,33 @@ namespace Sudoku_Solver
                     break;
 
                 if (!isPossibleToSolve(result))
+                {
                     break;
+                }  
             }
-            
+            return result;
+        }
+
+        public int[,] solveAll(int[,] question)
+        {
+            int[,] result = (int[,])question.Clone();
+
+            while (true)
+            {
+
+                // check solve all == true break;
+
+                // check validate == false rewind
+
+                // remove 1st +selected num in possible array
+
+                // while (isPossibleToSolve == true)
+                // set array picture first time
+                // select & save num 
+
+                //solve possible num
+
+            }
             return result;
         }
 
