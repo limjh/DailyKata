@@ -31,23 +31,66 @@ namespace Sudoku_Solver
         public int[,] solveAll(int[,] question)
         {
             int[,] result = (int[,])question.Clone();
+            int[,] tmpResult = (int[,])question.Clone();
+
+            SelectedNumInfo selectedNum = new SelectedNumInfo();
 
             while (true)
             {
 
                 // check solve all == true break;
+                if (finalValidate(result))
+                    break;
 
                 // check validate == false rewind
+                if (!validate(result))
+                {
+                    // rewind & remove first selected num in TmpSavedNums
+                }
 
-                // remove 1st +selected num in possible array
-
-                // while (isPossibleToSolve == true)
                 // set array picture first time
-                // select & save num 
+                Array.Copy(tmpResult, result, 9 * 9);
+
+                // update selected num(select new num) & update array
+
+
+                // while (isPossibleToSolve == false) {
+                // select next num & update array
+                // }
 
                 //solve possible num
+                result = solvePossibleNum(result);
 
             }
+            return result;
+        }
+
+        public SelectedNumInfo getNextSelect(int[,] question)
+        {
+            SelectedNumInfo result = new SelectedNumInfo();
+
+            int minListCount = 10;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (question[i, j] != 0)
+                        continue;
+
+                    ArrayList list = makeArrayList();
+
+                    list = removeExitNum(list, getSelectedRow(i, question));
+                    list = removeExitNum(list, getSelectedColumn(j, question));
+                    list = removeExitNum(list, getSelected3x3Array(i / 3, j / 3, question));
+
+                    if (list.Count < minListCount)
+                    {
+                        result.indexRow = i;
+                        result.indexCol = j;
+                    }
+                }
+            }
+
             return result;
         }
 
@@ -267,5 +310,18 @@ namespace Sudoku_Solver
 
             return result;
         }
+    }
+
+    public struct SelectedNumInfo
+    {
+        public int value;
+        public int indexRow;
+        public int indexCol;
+    }
+
+    public struct TmpSavedNums
+    {
+        public ArrayList[,] arrayList;
+        public SelectedNumInfo lastSelectedNum;
     }
 }
