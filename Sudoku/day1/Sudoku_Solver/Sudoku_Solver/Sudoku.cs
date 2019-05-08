@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Sudoku_Solver
 {
@@ -31,9 +32,8 @@ namespace Sudoku_Solver
         public int[,] solveAll(int[,] question)
         {
             int[,] result = (int[,])question.Clone();
-            int[,] tmpResult = (int[,])question.Clone();
 
-            SelectedNumInfo selectedNum = new SelectedNumInfo();
+            List<SelectedNumInfo> selectedNumList = new List<SelectedNumInfo>();
 
             while (true)
             {
@@ -42,21 +42,26 @@ namespace Sudoku_Solver
                 if (finalValidate(result))
                     break;
 
-                // check validate == false rewind
-                if (!validate(result))
+                while(!isPossibleToSolve(result))
                 {
-                    // rewind & remove first selected num in TmpSavedNums
+                    // select num & update selectedNum
+
+                    // update selectedNum
+                    SelectedNumInfo tmpSelectedNum = new SelectedNumInfo();
+
+                    tmpSelectedNum.value = 0;
+                    tmpSelectedNum.indexRow = 0;
+                    tmpSelectedNum.indexCol = 0;
+                    Array.Copy(tmpSelectedNum.array, result, 9 * 9);
+
+                    selectedNumList.Add(tmpSelectedNum);
+
+
+                    if (!validate(result))
+                    {
+                        // rewind & remove first selected num in TmpSavedNums
+                    }
                 }
-
-                // set array picture first time
-                Array.Copy(tmpResult, result, 9 * 9);
-
-                // update selected num(select new num) & update array
-
-
-                // while (isPossibleToSolve == false) {
-                // select next num & update array
-                // }
 
                 //solve possible num
                 result = solvePossibleNum(result);
@@ -312,16 +317,19 @@ namespace Sudoku_Solver
         }
     }
 
-    public struct SelectedNumInfo
+    public class SelectedNumInfo
     {
         public int value;
         public int indexRow;
         public int indexCol;
-    }
+        public int[,] array;
 
-    public struct TmpSavedNums
-    {
-        public ArrayList[,] arrayList;
-        public SelectedNumInfo lastSelectedNum;
+        public SelectedNumInfo()
+        {
+            value = 0;
+            indexRow = 0;
+            indexCol = 0;
+            array = new int[9, 9];
+        }
     }
 }
