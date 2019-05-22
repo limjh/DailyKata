@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sudoku_Solver
 {
     public class Sudoku
     {
+
+        ArrayList selectedNumList = new ArrayList();
+
         public Sudoku()
         {
         }
@@ -33,44 +37,81 @@ namespace Sudoku_Solver
         {
             int[,] result = (int[,])question.Clone();
 
-            List<SelectedNumInfo> selectedNumList = new List<SelectedNumInfo>();
+            ArrayList[,] map = makePossibleNumMap(question);
 
-            while (true)
+            while (!finalValidate(result))
             {
+                //select min possible num : return success, position, selected value, possible num list
+                SelectedNumInfo selectedNumInfo = getNextSelect(map);
 
-                // check solve all == true break;
-                if (finalValidate(result))
-                    break;
-
-                while(!isPossibleToSolve(result))
+                if (selectedNumInfo.value != 0)
                 {
-                    // select num & update selectedNum
+                    // update result
+                    result[selectedNumInfo.indexRow, selectedNumInfo.indexCol] = selectedNumInfo.value;
+                    // remove map's item and push
+                    map[selectedNumInfo.indexRow, selectedNumInfo.indexCol].Remove(selectedNumInfo.value);
 
-                    // update selectedNum
-                    SelectedNumInfo tmpSelectedNum = new SelectedNumInfo();
-
-                    tmpSelectedNum.value = 0;
-                    tmpSelectedNum.indexRow = 0;
-                    tmpSelectedNum.indexCol = 0;
-                    Array.Copy(tmpSelectedNum.array, result, 9 * 9);
-
-                    selectedNumList.Add(tmpSelectedNum);
-
-
-                    if (!validate(result))
+                    selectedNumList.Add(selectedNumInfo);
+                }
+                else
+                {
+                    // rollback
+                    while(true)
                     {
-                        // rewind & remove first selected num in TmpSavedNums
+                        if (selectedNumList.Count == 0)
+                        {
+                            //error
+                            return null;
+                        }
+                        
+                        //pop
+                        SelectedNumInfo savedData = (SelectedNumInfo)selectedNumList[selectedNumList.Count - 1];
+
+                        selectedNumList.RemoveAt(selectedNumList.Count - 1);
+
+                        savedData.possibleNumList.RemoveAt(0);
+                        map[savedData.indexRow, savedData.indexCol].Remove(savedData.value);
+
+                        if (savedData.possibleNumList.Count > 0)
+                        {
+                            savedData.value = (int)savedData.possibleNumList[0];
+                            selectedNumList.Add(savedData);
+                        }
+                        else
+                        {
+                            if (selectedNumList.Count == 0)
+                                return null;
+                        }
                     }
                 }
-
-                //solve possible num
-                result = solvePossibleNum(result);
-
             }
+
             return result;
         }
 
-        public SelectedNumInfo getNextSelect(int[,] question)
+        public ArrayList[,] makePossibleNumMap(int[,] question)
+        {
+            ArrayList[,] map = new ArrayList[9,9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    map[i, j] = makeArrayList();
+
+                    if (question[i, j] != 0)
+                        continue;
+
+                    map[i, j] = removeExitNum(map[i, j], getSelectedRow(i, question));
+                    map[i, j] = removeExitNum(map[i, j], getSelectedColumn(j, question));
+                    map[i, j] = removeExitNum(map[i, j], getSelected3x3Array(i / 3, j / 3, question));
+                }
+            }
+
+            return map;
+        }
+
+        public SelectedNumInfo getNextSelect(ArrayList[,] map)
         {
             SelectedNumInfo result = new SelectedNumInfo();
 
@@ -79,19 +120,18 @@ namespace Sudoku_Solver
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (question[i, j] != 0)
+                    if (map[i, j].Count == 0)
                         continue;
 
-                    ArrayList list = makeArrayList();
-
-                    list = removeExitNum(list, getSelectedRow(i, question));
-                    list = removeExitNum(list, getSelectedColumn(j, question));
-                    list = removeExitNum(list, getSelected3x3Array(i / 3, j / 3, question));
-
-                    if (list.Count < minListCount)
+                    if (map[i, j].Count < minListCount)
                     {
                         result.indexRow = i;
                         result.indexCol = j;
+                        result.value = (int)map[i, j][0];
+                        result.possibleNumList = map[i, j];
+
+                        minListCount = map[i, j].Count;
+
                     }
                 }
             }
@@ -322,14 +362,17 @@ namespace Sudoku_Solver
         public int value;
         public int indexRow;
         public int indexCol;
-        public int[,] array;
+        public ArrayList possibleNumList;
+        public int selectedIndex;
+        
 
         public SelectedNumInfo()
         {
             value = 0;
             indexRow = 0;
             indexCol = 0;
-            array = new int[9, 9];
+            possibleNumList = new ArrayList();
+            selectedIndex = 0;
         }
     }
 }
