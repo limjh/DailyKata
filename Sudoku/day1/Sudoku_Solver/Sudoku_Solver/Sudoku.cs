@@ -38,51 +38,41 @@ namespace Sudoku_Solver
             int[,] result = (int[,])question.Clone();
 
             ArrayList[,] map = makePossibleNumMap(question);
+            SelectedNumInfo preSelectedNumInfo = new SelectedNumInfo();
 
             while (!finalValidate(result))
             {
-                //select min possible num : return success, position, selected value, possible num list
-                SelectedNumInfo selectedNumInfo = getNextSelect(map);
+                // select
 
-                if (selectedNumInfo.value != 0)
-                {
-                    // update result
-                    result[selectedNumInfo.indexRow, selectedNumInfo.indexCol] = selectedNumInfo.value;
-                    // remove map's item and push
-                    map[selectedNumInfo.indexRow, selectedNumInfo.indexCol].Remove(selectedNumInfo.value);
 
-                    selectedNumList.Add(selectedNumInfo);
-                }
-                else
+                while(!validate(result))
                 {
-                    // rollback
-                    while(true)
+                    // pop
+                    preSelectedNumInfo = (SelectedNumInfo)selectedNumList[selectedNumList.Count - 1];
+
+                    // remove
+                    selectedNumList.Remove(preSelectedNumInfo);
+
+                    // rewind result
+                    result[preSelectedNumInfo.indexRow, preSelectedNumInfo.indexCol] = 0;
+
+                    // selected index ++
+                    preSelectedNumInfo.selectedIndex++;
+
+                    // check list end
+                    if (preSelectedNumInfo.possibleNumList.Count == preSelectedNumInfo.selectedIndex)
                     {
-                        if (selectedNumList.Count == 0)
-                        {
-                            //error
-                            return null;
-                        }
-                        
-                        //pop
-                        SelectedNumInfo savedData = (SelectedNumInfo)selectedNumList[selectedNumList.Count - 1];
-
-                        selectedNumList.RemoveAt(selectedNumList.Count - 1);
-
-                        savedData.possibleNumList.RemoveAt(0);
-                        map[savedData.indexRow, savedData.indexCol].Remove(savedData.value);
-
-                        if (savedData.possibleNumList.Count > 0)
-                        {
-                            savedData.value = (int)savedData.possibleNumList[0];
-                            selectedNumList.Add(savedData);
-                        }
-                        else
-                        {
-                            if (selectedNumList.Count == 0)
-                                return null;
-                        }
+                        break;
                     }
+
+                    // update value
+                    preSelectedNumInfo.value = (int)preSelectedNumInfo.possibleNumList[preSelectedNumInfo.selectedIndex - 1];
+
+                    //push
+                    selectedNumList.Add(preSelectedNumInfo);
+
+                    // update result
+                    result[preSelectedNumInfo.indexRow, preSelectedNumInfo.indexCol] = preSelectedNumInfo.value;
                 }
             }
 
@@ -125,9 +115,13 @@ namespace Sudoku_Solver
 
                     if (map[i, j].Count < minListCount)
                     {
+                        if (result.selectedIndex == map[i, j].Count)
+                            continue;
+
+                        result.selectedIndex++;
                         result.indexRow = i;
                         result.indexCol = j;
-                        result.value = (int)map[i, j][0];
+                        result.value = (int)map[i, j][result.selectedIndex - 1];
                         result.possibleNumList = map[i, j];
 
                         minListCount = map[i, j].Count;
@@ -136,6 +130,37 @@ namespace Sudoku_Solver
                 }
             }
 
+            return result;
+        }
+
+        public SelectedNumInfo getNextSelectNum(int[,] question)
+        {
+            SelectedNumInfo result = new SelectedNumInfo();
+
+            int minListCount = 10;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (question[i, j] == 0)
+                        continue;
+
+                    if (map[i, j].Count < minListCount)
+                    {
+                        if (result.selectedIndex == map[i, j].Count)
+                            continue;
+
+                        result.selectedIndex++;
+                        result.indexRow = i;
+                        result.indexCol = j;
+                        result.value = (int)map[i, j][result.selectedIndex - 1];
+                        result.possibleNumList = map[i, j];
+
+                        minListCount = map[i, j].Count;
+
+                    }
+                }
+            }
             return result;
         }
 
