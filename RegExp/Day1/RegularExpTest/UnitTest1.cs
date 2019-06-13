@@ -15,6 +15,36 @@ namespace RegularExpTest
             regExp = new RegularExp.RegEx();
         }
 
+        [TestMethod]
+        public void check_isValidInput()
+        {
+            string validInput = "abcdefghijklmnopqrstuvwxyz";
+            string invalidInput1 = "abcdefghijklmnopqrstuvwxyz1";
+            string invalidInput2 = "_!@#$";
+            string invalidInput3 = " ";
+
+            Assert.IsTrue(regExp.isValidInput(validInput));
+            Assert.IsFalse(regExp.isValidInput(invalidInput1));
+            Assert.IsFalse(regExp.isValidInput(invalidInput2));
+            Assert.IsFalse(regExp.isValidInput(invalidInput3));
+        }
+
+        [TestMethod]
+        public void check_isValidPattern()
+        {
+            string validPattern = "abcdefghijklmnopqrstuvwxyz.*";
+            string invalidPattern1 = "abcdefghijklmnopqrstuvwxyz12";
+            string invalidPattern2 = "_!@#$.*";
+            string invalidPattern3 = " ";
+            string invalidPattern4 = "\\";
+
+            Assert.IsTrue(regExp.isValidPattern(validPattern));
+            Assert.IsFalse(regExp.isValidPattern(invalidPattern1));
+            Assert.IsFalse(regExp.isValidPattern(invalidPattern2));
+            Assert.IsFalse(regExp.isValidPattern(invalidPattern3));
+            Assert.IsFalse(regExp.isValidPattern(invalidPattern4));
+        }
+
 
         [TestMethod]
         public void example_01()
@@ -22,9 +52,9 @@ namespace RegularExpTest
             string input = "aa";
             string pattern = "a";
 
-            bool output = regExp.matching(input, pattern);
-
-            Assert.IsFalse(output);
+            Assert.Equals(
+                regExp.matching(input, pattern), 
+                ErrorCodes.ERROR_MATCHING_FAIL);
         }
 
         [TestMethod]
@@ -33,9 +63,9 @@ namespace RegularExpTest
             string input = "aa";
             string pattern = "a*";
 
-            bool output = regExp.matching(input, pattern);
-
-            Assert.IsTrue(output);
+            Assert.Equals(
+                regExp.matching(input, pattern),
+                ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
 
         [TestMethod]
@@ -44,9 +74,9 @@ namespace RegularExpTest
             string input = "ab";
             string pattern = ".*";
 
-            bool output = regExp.matching(input, pattern);
-
-            Assert.IsTrue(output);
+            Assert.Equals(
+                regExp.matching(input, pattern),
+                ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
 
         [TestMethod]
@@ -55,9 +85,9 @@ namespace RegularExpTest
             string input = "aab";
             string pattern = "c*a*b";
 
-            bool output = regExp.matching(input, pattern);
-
-            Assert.IsTrue(output);
+            Assert.Equals(
+                regExp.matching(input, pattern),
+                ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
 
         [TestMethod]
@@ -66,9 +96,9 @@ namespace RegularExpTest
             string input = "mississippi";
             string pattern = "mis*is*p*.";
 
-            bool output = regExp.matching(input, pattern);
-
-            Assert.IsFalse(output);
+            Assert.Equals(
+                regExp.matching(input, pattern),
+                ErrorCodes.ERROR_MATCHING_FAIL);
         }
     }
 }
