@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+
 public enum ErrorCodes : uint
 {
     ERROR_MATCHING_FAIL     = 0x01,
@@ -24,7 +25,7 @@ namespace RegularExp
             if (!isValidInput(input))
                 return ErrorCodes.ERROR_INVALID_INPUT;
 
-            if (!isValidInput(pattern))
+            if (!isValidPattern(pattern))
                 return ErrorCodes.ERROR_INVALID_PATTERN;
 
             ArrayList inputArrayList = stringToArrayList(input);
@@ -34,6 +35,59 @@ namespace RegularExp
             if (!isContainStar(patternArrayList) &&
                 input.Length > pattern.Length)
                 return ErrorCodes.ERROR_MATCHING_FAIL;
+
+            // EX2 : 
+            int indexPattern = 0;
+            int indexPatternSub = 0;
+            while(indexPattern < pattern.Length)
+            {
+                indexPatternSub = indexPattern;
+
+                bool isCatch = true;
+
+                for(int i = 0; i < input.Length; i++)
+                {
+                    if ( ((string)patternArrayList[indexPatternSub]).CompareTo((string)inputArrayList[i]) == 0 )
+                    {
+                        // same letter
+                        if ((indexPatternSub + 1) >= pattern.Length) {
+                            isCatch = false;
+                            break;
+                        }
+                        indexPatternSub++;
+
+                        continue;
+                    }
+
+                    // does not same
+                    if ( ((string)patternArrayList[indexPatternSub]).CompareTo("*") == 0  &&
+                        indexPatternSub > 0)
+                    {
+                        // check pre-pattern
+                        if (((string)patternArrayList[indexPatternSub - 1]).CompareTo((string)inputArrayList[i]) == 0)
+                        {
+                            // same letter
+                            if ((indexPatternSub + 1) >= pattern.Length)
+                            {
+                                isCatch = false;
+                                break;
+                            }
+                            indexPatternSub++;
+
+                            continue;
+                        }
+                    }
+
+                    // check next patter letter
+                    isCatch = false;
+                    break;
+                }
+
+                if (isCatch)
+                    return ErrorCodes.ERROR_MATCHING_SUCCESS;
+
+                indexPattern++;
+            }
 
             return ErrorCodes.ERROR_MATCHING_SUCCESS;
         }

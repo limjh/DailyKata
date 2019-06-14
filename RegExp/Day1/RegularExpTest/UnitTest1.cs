@@ -52,8 +52,8 @@ namespace RegularExpTest
             string input = "aa";
             string pattern = "a";
 
-            Assert.Equals(
-                regExp.matching(input, pattern), 
+            Assert.AreEqual(
+                regExp.matching(input, pattern),
                 ErrorCodes.ERROR_MATCHING_FAIL);
         }
 
@@ -63,7 +63,7 @@ namespace RegularExpTest
             string input = "aa";
             string pattern = "a*";
 
-            Assert.Equals(
+            Assert.AreEqual(
                 regExp.matching(input, pattern),
                 ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
@@ -74,7 +74,7 @@ namespace RegularExpTest
             string input = "ab";
             string pattern = ".*";
 
-            Assert.Equals(
+            Assert.AreEqual(
                 regExp.matching(input, pattern),
                 ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
@@ -85,7 +85,7 @@ namespace RegularExpTest
             string input = "aab";
             string pattern = "c*a*b";
 
-            Assert.Equals(
+            Assert.AreEqual(
                 regExp.matching(input, pattern),
                 ErrorCodes.ERROR_MATCHING_SUCCESS);
         }
@@ -96,7 +96,7 @@ namespace RegularExpTest
             string input = "mississippi";
             string pattern = "mis*is*p*.";
 
-            Assert.Equals(
+            Assert.AreEqual(
                 regExp.matching(input, pattern),
                 ErrorCodes.ERROR_MATCHING_FAIL);
         }
