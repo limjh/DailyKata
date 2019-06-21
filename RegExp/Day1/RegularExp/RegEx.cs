@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
 
 
 public enum ErrorCodes : uint
@@ -18,64 +17,91 @@ public enum ErrorCodes : uint
 
 namespace RegularExp
 {
-    public class RegEx
+    public class Solution
     {
-        public ErrorCodes matching(string input, string pattern)
+        //public ErrorCodes matching(string input, string pattern)
+        public bool IsMatch(string s, string p)
         {
-            if (!isValidInput(input))
-                return ErrorCodes.ERROR_INVALID_INPUT;
+            if (!isValidInput(s))
+            {
+                //return ErrorCodes.ERROR_INVALID_INPUT;
+                return false;
+            }
 
-            if (!isValidPattern(pattern))
-                return ErrorCodes.ERROR_INVALID_PATTERN;
+            if (!isValidPattern(p))
+            {
+                //return ErrorCodes.ERROR_INVALID_PATTERN;
+                return false;
+            }
 
-            ArrayList inputArrayList = stringToArrayList(input);
-            ArrayList patternArrayList = stringToArrayList(pattern);
+            ArrayList inputArrayList = stringToArrayList(s);
+            ArrayList patternArrayList = stringToArrayList(p);
 
             // EX1 : 패턴 문자열에 *가 포함되지 않을경우 입력 문자열의 길이는 패턴 문자열의 길이보다 클수 없다
             if (!isContainStar(patternArrayList) &&
-                input.Length > pattern.Length)
-                return ErrorCodes.ERROR_MATCHING_FAIL;
+                s.Length != p.Length) {
+                return false;
+            }
 
             // EX2 : 
             int indexPattern = 0;
             int indexPatternSub = 0;
-            while(indexPattern < pattern.Length)
+            int indexInput = 0;
+            while(indexPattern < p.Length)
             {
                 indexPatternSub = indexPattern;
 
                 bool isCatch = true;
 
-                for(int i = 0; i < input.Length; i++)
+                for(indexInput = 0; indexInput < s.Length; indexInput++)
                 {
-                    if ( ((string)patternArrayList[indexPatternSub]).CompareTo((string)inputArrayList[i]) == 0 )
+                    if (isMatchOneLetter((string)patternArrayList[indexPatternSub], (string)inputArrayList[indexInput]))
                     {
                         // same letter
-                        if ((indexPatternSub + 1) >= pattern.Length) {
-                            isCatch = false;
-                            break;
-                        }
                         indexPatternSub++;
+                        if (indexPatternSub >= p.Length)
+                            break;
 
                         continue;
                     }
 
+
                     // does not same
-                    if ( ((string)patternArrayList[indexPatternSub]).CompareTo("*") == 0  &&
+                    if (isMatchOneLetter((string)patternArrayList[indexPatternSub], "*") &&
                         indexPatternSub > 0)
                     {
                         // check pre-pattern
-                        if (((string)patternArrayList[indexPatternSub - 1]).CompareTo((string)inputArrayList[i]) == 0)
+                        if (isMatchOneLetter((string)patternArrayList[indexPatternSub - 1], (string)inputArrayList[indexInput]) ||
+                            ((indexPatternSub + 1 < p.Length - 1) &&
+                            (isMatchOneLetter((string)patternArrayList[indexPatternSub + 1], (string)inputArrayList[indexInput]))))
                         {
                             // same letter
-                            if ((indexPatternSub + 1) >= pattern.Length)
-                            {
-                                isCatch = false;
-                                break;
-                            }
                             indexPatternSub++;
+
+                            if (indexPatternSub >= p.Length &&
+                                indexInput < (s.Length - 1))
+                            {
+                                indexPatternSub--;
+                                continue;
+                            }
+
+
+                            if (indexPatternSub >= p.Length)
+                                break;
 
                             continue;
                         }
+                    }
+
+                    // 현재 문자가 같지않고 다음 문자열이 * 일경우 현재 문자 생략 가능 
+                    if (indexPatternSub + 2 < p.Length &&
+                        indexInput != 0 &&
+                        isMatchOneLetter((string)patternArrayList[indexPatternSub + 1], "*"))
+                    {
+
+                        indexPatternSub += 2;
+                        indexInput -= 1;
+                        continue;
                     }
 
                     // check next patter letter
@@ -83,13 +109,33 @@ namespace RegularExp
                     break;
                 }
 
-                if (isCatch)
-                    return ErrorCodes.ERROR_MATCHING_SUCCESS;
+                if (isCatch && indexInput == (s.Length - 1)) {
+                    //return ErrorCodes.ERROR_MATCHING_SUCCESS;
+                    return true;
+                }
+
+
 
                 indexPattern++;
             }
 
-            return ErrorCodes.ERROR_MATCHING_SUCCESS;
+            //return ErrorCodes.ERROR_MATCHING_FAIL;
+            return false;
+        }
+
+        public bool isMatchOneLetter(string input1, string input2)
+        {
+            if (input1.Contains(input2) || input2.Contains(input1))
+            {
+                return true;
+            }
+
+            if (input1.Contains(".") || input2.Contains("."))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public ArrayList stringToArrayList(string input)
@@ -132,6 +178,16 @@ namespace RegularExp
             foreach (string c in pattern)
             {
                 if (c.Contains("*"))
+                    return true;
+            }
+            return false;
+        }
+
+        public bool isContainComma(ArrayList pattern)
+        {
+            foreach (string c in pattern)
+            {
+                if (c.Contains("."))
                     return true;
             }
             return false;
