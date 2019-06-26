@@ -214,5 +214,19 @@ namespace RegularExpTest
                 regExp.IsMatch(input, pattern),
                 true);
         }
+
+        [TestMethod]
+        public void example_13()
+        {
+            string input = "a";
+            string pattern = "ab*a";
+
+            //Assert.AreEqual(
+            //    regExp.isMatch(input, pattern),
+            //    ErrorCodes.ERROR_MATCHING_FAIL);
+            Assert.AreEqual(
+                regExp.IsMatch(input, pattern),
+                false);
+        }
     }
 }

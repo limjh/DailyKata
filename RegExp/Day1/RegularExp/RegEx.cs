@@ -47,16 +47,19 @@ namespace RegularExp
             int indexPattern = 0;
             int indexPatternSub = 0;
             int indexInput = 0;
+
+            ArrayList resultStr = new ArrayList();
+
             while(indexPattern < p.Length)
             {
                 indexPatternSub = indexPattern;
-
-                bool isCatch = true;
 
                 for(indexInput = 0; indexInput < s.Length; indexInput++)
                 {
                     if (isMatchOneLetter((string)patternArrayList[indexPatternSub], (string)inputArrayList[indexInput]))
                     {
+                        resultStr.Add((string)inputArrayList[indexInput]);
+
                         // same letter
                         indexPatternSub++;
                         if (indexPatternSub >= p.Length)
@@ -75,6 +78,8 @@ namespace RegularExp
                             ((indexPatternSub + 1 < p.Length - 1) &&
                             (isMatchOneLetter((string)patternArrayList[indexPatternSub + 1], (string)inputArrayList[indexInput]))))
                         {
+                            resultStr.Add((string)inputArrayList[indexInput]);
+
                             // same letter
                             indexPatternSub++;
 
@@ -105,18 +110,20 @@ namespace RegularExp
                     }
 
                     // check next patter letter
-                    isCatch = false;
                     break;
                 }
 
-                if (isCatch && indexInput == (s.Length - 1)) {
-                    //return ErrorCodes.ERROR_MATCHING_SUCCESS;
-                    return true;
+                string ResultString = String.Join("", resultStr.ToArray());
+
+                if (ResultString.Contains(s))
+                {
+                    if (resultStr.Count == s.Length)
+                        return true;
                 }
 
 
-
                 indexPattern++;
+                resultStr.Clear();
             }
 
             //return ErrorCodes.ERROR_MATCHING_FAIL;
