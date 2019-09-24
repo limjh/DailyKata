@@ -64,6 +64,8 @@ namespace CompareVersionNumberTest
             string input2 = "1.1";
 
             Assert.AreEqual(Comparer.CompareVersion(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), -1);
         }
 
         [TestMethod]
@@ -73,6 +75,8 @@ namespace CompareVersionNumberTest
             string input2 = "1";
 
             Assert.AreEqual(Comparer.CompareVersion(input1, input2), 1);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), 1);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), 1);
         }
 
         [TestMethod]
@@ -82,6 +86,8 @@ namespace CompareVersionNumberTest
             string input2 = "7.5.3";
 
             Assert.AreEqual(Comparer.CompareVersion(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), -1);
         }
 
         [TestMethod]
@@ -91,6 +97,8 @@ namespace CompareVersionNumberTest
             string input2 = "1.001";
 
             Assert.AreEqual(Comparer.CompareVersion(input1, input2), 0);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), 0);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), 0);
         }
 
         [TestMethod]
@@ -100,6 +108,19 @@ namespace CompareVersionNumberTest
             string input2 = "1.0.0";
 
             Assert.AreEqual(Comparer.CompareVersion(input1, input2), 0);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), 0);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), 0);
+        }
+
+        [TestMethod]
+        public void TestMethod_compareVersion06()
+        {
+            string input1 = "0.9.9.9.9.9.9.9.9";
+            string input2 = "1.0";
+
+            Assert.AreEqual(Comparer.CompareVersion(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion2(input1, input2), -1);
+            Assert.AreEqual(Comparer.CompareVersion3(input1, input2), -1);
         }
     }
 }
